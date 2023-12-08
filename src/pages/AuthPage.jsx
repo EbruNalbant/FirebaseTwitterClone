@@ -1,7 +1,5 @@
 import { auth, provider } from "./../firebase/config";
 import {
-  signInWithRedirect,
-  getRedirectResult,
   signInWithPopup,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
@@ -36,10 +34,12 @@ const AuthPage = () => {
       createUserWithEmailAndPassword(auth, email, pass)
         .then((res) => {
           navigate("/feed");
-          toast.success("Your account has been created.");
+          toast.success("Your account has been created.", { autoClose: 1500 });
         })
         .catch((err) => {
-          toast.error(`Sorry, an error occured. ${err.code} `);
+          toast.error(`Sorry, an error occured. ${err.code} `, {
+            autoClose: 1500,
+          });
         });
     } else {
       // var olan hesaba giriş yapma
@@ -50,10 +50,12 @@ const AuthPage = () => {
         })
         .catch((err) => {
           // şifre yanlışsa state'i true'ya çekme
-          if (err.code === "auth/invalid-login-credentials") {
+          if (err.code === "auth/invalid-credential") {
             setShowErr(true);
           }
-          toast.error(`Sorry, an error occured. ${err.code} `);
+          toast.error(`Sorry, an error occured. ${err.code} `, {
+            autoClose: 1500,
+          });
         });
     }
   };
@@ -61,8 +63,8 @@ const AuthPage = () => {
   // google ile giriş
   const handleGoogle = async () => {
     try {
-      const res = signInWithPopup(auth, provider);
-      toast.success("Google hesabınız ile giriş yapıldı.");
+      const res = await signInWithPopup(auth, provider);
+      toast.success("Logged in with your Google account.", { autoClose: 1500 });
       navigate("/feed");
     } catch (err) {
       console.log(err);

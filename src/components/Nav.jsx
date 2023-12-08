@@ -1,8 +1,10 @@
+import { signOut } from "firebase/auth";
 import { navSections } from "../contants";
+import { auth } from "../firebase/config";
 
 const Nav = ({ user }) => {
   return (
-    <nav className="flex flex-col justify-between items-end p-2 py-4">
+    <nav className="flex flex-col justify-between items-end p-2 py-4 ">
       <div>
         {/* logo */}
         <img className="w-14 mb-4" src="/x-logoo.webp" />
@@ -23,7 +25,12 @@ const Nav = ({ user }) => {
           <img className="w-12 h-12 rounded-full" src={user?.photoURL} />
           <p className="hidden md:block font-bold">{user?.displayName}</p>
         </div>
-        <button className="bg-gray-700 p-2 rounded-lg">Sign Out</button>
+        <button
+          onClick={() => signOut(auth)}
+          className="bg-gray-700 p-2 rounded-lg"
+        >
+          Sign Out
+        </button>
       </div>
     </nav>
   );
